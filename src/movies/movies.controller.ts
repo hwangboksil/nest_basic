@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie-dto';
 import { Movie } from './entities/movie.entity';
 import { MoviesService } from './movies.service';
 
@@ -9,7 +10,7 @@ export class MoviesController {
     }
 
     @Get()
-    getAll(): Movie[] {
+    getAll(): Movie[] { //@Req, Res를 적어주므로 Express에 접근이 가능하나 사용x
         return this.moviesService.getAll();
     }
 
@@ -32,7 +33,7 @@ export class MoviesController {
     // @Put() //전체 수정
 
     @Patch('/:id') //부분 수정
-    patch(@Param('id') movieId: number, @Body() updateData) {
+    patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) { //UpdateMovieDto 추가
         return this.moviesService.update(movieId, updateData);
     }
 }
